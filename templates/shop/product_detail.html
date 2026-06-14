@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} — WeightWise Hub{% endblock %}
+
+{% block content %}
+
+<section class="py-5" style="background: var(--black);">
+    <div class="container">
+
+        <!-- BREADCRUMB -->
+        <nav class="mb-4">
+            <ol class="breadcrumb custom-breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop' %}">Shop</a></li>
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <!-- IMAGE -->
+            <div class="col-lg-5">
+                <div class="product-detail-img">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-custom">
+                    {% else %}
+                    <div class="product-img-placeholder">
+                        <i class="fas fa-box fa-5x text-muted"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- DETAILS -->
+            <div class="col-lg-7">
+                <div class="section-tag">{{ product.category.name }}</div>
+                <h1 class="product-detail-title">{{ product.name }}</h1>
+
+                <div class="d-flex align-items-center gap-3 my-3">
+                    <span class="product-detail-price">₦{{ product.price|floatformat:0 }}</span>
+                    {% if product.old_price %}
+                    <span class="product-old-price fs-5">₦{{ product.old_price|floatformat:0 }}</span>
+                    {% endif %}
+                    {% if product.discount_percent %}
+                    <span class="badge bg-danger">Save {{ product.discount_percent }}%</span>
+                    {% endif %}
+                </div>
+
+                <div class="stock-badge mb-4">
+                    {% if product.in_stock %}
+                    <span class="in-stock"><i class="fas fa-check-circle me-1"></i> In Stock</span>
+                    {% else %}
+                    <span class="out-stock"><i class="fas fa-times-circle me-1"></i> Out of Stock</span>
+                    {% endif %}
+                </div>
+
+                <p class="product-description">{{ product.description }}</p>
+
+                <a href="{% url 'add_to_cart' product.id %}" class="btn-primary-custom mt-4 d-inline-block">
+                    <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                </a>
+                <a href="{% url 'cart' %}" class="btn-outline-custom mt-4 ms-2 d-inline-block">
+                    <i class="fas fa-shopping-cart me-2"></i> View Cart
+                </a>
+
+                <!-- TABS -->
+<div class="product-tabs mt-5">
+    <ul class="nav custom-tabs mb-3" id="productTabs">
+        <li class="nav-item">
+            <button class="custom-tab active" data-bs-toggle="tab" data-bs-target="#ingredients">Ingredients</button>
+        </li>
+        <li class="nav-item">
+            <button class="custom-tab" data-bs-toggle="tab" data-bs-target="#howto">How to Use</button>
+        </li>
+        <li class="nav-item">
+            <button class="custom-tab" data-bs-toggle="tab" data-bs-target="#reviews">
+                Reviews <span class="ms-1 text-orange">({{ reviews.count }})</span>
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="ingredients">
+            <p class="text-muted">{{ product.ingredients|default:"Ingredient details coming soon." }}</p>
+        </div>
+        <div class="tab-pane fade" id="howto">
+            <p class="text-muted">{{ product.how_to_use|default:"Usage instructions coming soon." }}</p>
+        </div>
+        <div class="tab-pane fade" id="reviews">
+            <!-- EXISTING REVIEWS -->
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-item mb-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <div class="review-avatar">{{ review.name|first }}</div>
+                        <div>
+                            <div class="text-white fw-bold">{{ review.name }}</div>
+                            <div class="text-muted small">{{ review.location }} · {{ review.created_at|date:"M d, Y" }}</div>
+                        </div>
+                        <div class="ms-auto review-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-0">{{ review.comment }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted small mb-3">No reviews yet. Be the first!</p>
+            {% endif %}
+
+            <!-- WRITE A REVIEW -->
+            <div class="review-form-box mt-4">
+                <h6 class="text-white fw-bold mb-3">
+                    <i class="fas fa-pen me-2 text-orange"></i>Write a Review
+                </h6>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="location" class="form-control" placeholder="City, State (optional)">
+                        </div>
+                        <div class="col-12">
+                            <label class="text-muted small mb-1">Your Rating</label>
+                            <div class="star-rating-input">
+                                {% for i in "54321" %}
+                                <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" {% if i == "5" %}checked{% endif %}>
+                                <label for="star{{ i }}">★</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <textarea name="comment" class="form-control" rows="3" placeholder="Share your experience with this product..." required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn-primary-custom">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Review
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- RELATED PRODUCTS -->
+        {% if related %}
+        <div class="mt-5 pt-4">
+            <div class="section-tag">More Like This</div>
+            <h3 class="section-title mb-4">RELATED <span>PRODUCTS</span></h3>
+            <div class="row g-4">
+                {% for item in related %}
+                <div class="col-sm-6 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img-wrap">
+                            {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                            {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <i class="fas fa-box fa-3x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="product-body">
+                            <div class="product-name">{{ item.name }}</div>
+                            <div class="product-price mt-1">₦{{ item.price|floatformat:0 }}</div>
+                            <a href="{% url 'product_detail' item.slug %}" class="btn-add-cart mt-3">View Product</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

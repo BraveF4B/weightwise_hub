@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}WeightWise Hub — Body Goals{% endblock %}
+
+{% block extra_css %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-animated-bg"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-glow-orb orb-1"></div>
+    <div class="hero-glow-orb orb-2"></div>
+    <div class="container position-relative hero-content">
+        <div class="row align-items-center" style="min-height:92vh;">
+            <div class="col-lg-6 py-5">
+                <div class="hero-badge" data-aos="fade-down">
+                    🔥 Nigeria's #1 Weight Gain Brand
+                </div>
+                <h1 class="hero-title mt-3" data-aos="fade-up" data-aos-delay="100">
+                    BUILD YOUR<br>
+                    <span class="gradient-text">DREAM</span><br>
+                    BODY TODAY
+                </h1>
+                <p class="hero-subtitle mt-4" data-aos="fade-up" data-aos-delay="200">
+                    Premium weight gain syrup formulated for real results.
+                    Fuel your growth, boost your appetite, and hit your body goals faster.
+                </p>
+                <div class="d-flex gap-3 flex-wrap mt-4" data-aos="fade-up" data-aos-delay="300">
+                    <a href="{% url 'shop' %}" class="btn-primary-custom">
+                        <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                    </a>
+                    <a href="#features" class="btn-outline-custom">
+                        Learn More <i class="fas fa-arrow-down ms-2"></i>
+                    </a>
+                </div>
+                <div class="hero-stats mt-5" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-item">
+                        <div class="stat-number">5K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Natural</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+                <div class="hero-visual" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="hero-ring hero-ring-1"></div>
+                    <div class="hero-ring hero-ring-2"></div>
+                    <div class="hero-ring hero-ring-3"></div>
+                    <div class="hero-center-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="hero-float-badge badge-1">
+                        <i class="fas fa-check-circle me-1"></i> Lab Certified
+                    </div>
+                    <div class="hero-float-badge badge-2">
+                        <i class="fas fa-leaf me-1"></i> 100% Natural
+                    </div>
+                    <div class="hero-float-badge badge-3">
+                        <i class="fas fa-truck me-1"></i> Fast Delivery
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll-indicator">
+        <div class="scroll-dot"></div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="section-tag">Why Choose Us</div>
+            <h2 class="section-title mt-2">THE <span>WEIGHTWISE</span> DIFFERENCE</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="feature-title">100% Natural</div>
+                    <p class="feature-text">All supplements made with natural, clinically-tested ingredients for safe, effective weight gain.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-flask"></i></div>
+                    <div class="feature-title">Lab Certified</div>
+                    <p class="feature-text">Every product goes through rigorous lab testing to ensure quality, purity and effectiveness.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                    <div class="feature-title">Fast Delivery</div>
+                    <p class="feature-text">We deliver across all 36 states In & Outside Nigeria.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <div class="feature-title">24/7 Support</div>
+                    <p class="feature-text">Our nutrition experts are always available to guide you on your weight gain journey.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="py-5" style="background: var(--black);">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+            <div>
+                <div class="section-tag">Best Sellers</div>
+                <h2 class="section-title mt-2">FEATURED <span>PRODUCTS</span></h2>
+            </div>
+            <a href="{% url 'shop' %}" class="btn-outline-custom d-none d-md-inline-block">View All</a>
+        </div>
+        <div class="row g-4">
+            {% for product in featured %}
+            <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <div class="product-card">
+                    <div class="product-img-wrap">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100 flex-column gap-2">
+                            <i class="fas fa-box fa-3x" style="color:#333;"></i>
+                        </div>
+                        {% endif %}
+                        {% if product.discount_percent %}
+                        <span class="product-badge">-{{ product.discount_percent }}%</span>
+                        {% endif %}
+                        <div class="product-overlay">
+                            <a href="{% url 'product_detail' product.slug %}" class="overlay-btn">
+                                <i class="fas fa-eye me-1"></i> Quick View
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-body">
+                        <div class="product-cat-tag">{{ product.category.name }}</div>
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div>
+                                <span class="product-price">₦{{ product.price|floatformat:0 }}</span>
+                                {% if product.old_price %}
+                                <span class="product-old-price">₦{{ product.old_price|floatformat:0 }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn-add-cart mt-3">
+                            <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-box-open fa-3x mb-3 d-block" style="color:#333;"></i>
+                <p class="text-muted">No featured products yet.</p>
+                <a href="/admin" class="btn-primary-custom mt-2">Add Products</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4 d-md-none">
+            <a href="{% url 'shop' %}" class="btn-outline-custom">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="section-tag">Simple Process</div>
+            <h2 class="section-title mt-2">HOW IT <span>WORKS</span></h2>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="how-step">
+                    <div class="how-number">01</div>
+                    <div class="how-icon"><i class="fas fa-search"></i></div>
+                    <h6 class="text-white fw-bold mt-3">Browse Products</h6>
+                    <p class="text-muted small">Explore our range of premium weight gain supplements.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="how-step">
+                    <div class="how-number">02</div>
+                    <div class="how-icon"><i class="fas fa-cart-plus"></i></div>
+                    <h6 class="text-white fw-bold mt-3">Add to Cart</h6>
+                    <p class="text-muted small">Select your products and add them to your cart.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="how-step">
+                    <div class="how-number">03</div>
+                    <div class="how-icon"><i class="fas fa-credit-card"></i></div>
+                    <h6 class="text-white fw-bold mt-3">Pay Securely</h6>
+                    <p class="text-muted small">Checkout safely with Paystack — card, bank or USSD.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="how-step">
+                    <div class="how-number">04</div>
+                    <div class="how-icon"><i class="fas fa-box-open"></i></div>
+                    <h6 class="text-white fw-bold mt-3">Get Delivered</h6>
+                    <p class="text-muted small">We deliver to your door anywhere in Nigeria.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-5 bg-dark-custom">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="section-tag">Real Results</div>
+            <h2 class="section-title mt-2">WHAT OUR <span>CUSTOMERS</span> SAY</h2>
+            <p style="color:#ccc;" class="mt-2">Verified reviews from our community</p>
+        </div>
+
+        <div class="row g-4">
+            {% if top_reviews %}
+                {% for review in top_reviews %}
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                    <div class="testimonial-card {% if forloop.counter == 2 %}featured-testimonial{% endif %}">
+                        <div class="review-stars-lg mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                <span class="star-filled">★</span>
+                                {% else %}
+                                <span class="star-empty">☆</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="testimonial-text">"{{ review.comment }}"</p>
+                        <div class="d-flex align-items-center gap-3 mt-3">
+                            <div class="testimonial-avatar">{{ review.name|first|upper }}</div>
+                            <div>
+                                <div class="testimonial-author">{{ review.name }}</div>
+                                <div class="testimonial-role">
+                                    {% if review.location %}{{ review.location }}{% else %}Nigeria{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- FALLBACK if no reviews yet -->
+                <div class="col-12 text-center py-4">
+                    <i class="fas fa-comments fa-3x mb-3 d-block" style="color:#333;"></i>
+                    <p style="color:#aaa;">No reviews yet. Be the first!</p>
+                    <a href="{% url 'reviews' %}" class="btn-primary-custom mt-2">Write a Review</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{% url 'reviews' %}" class="btn-outline-custom">
+                <i class="fas fa-comments me-2"></i> See All Reviews
+            </a>
+        </div>
+    </div>
+</section>
+        
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container text-center" data-aos="zoom-in">
+        <div class="section-tag mx-auto">Limited Time</div>
+        <h2 class="section-title mt-3 mb-3">READY TO <span>TRANSFORM</span> YOUR BODY?</h2>
+        <p class="text-muted mb-4">Join thousands of Nigerians already on their weight gain journey with WeightWise Hub.</p>
+        <a href="{% url 'shop' %}" class="btn-primary-custom">
+            <i class="fas fa-fire me-2"></i> Start Shopping Now
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 700, once: true, offset: 80 });
+</script>
+{% endblock %}

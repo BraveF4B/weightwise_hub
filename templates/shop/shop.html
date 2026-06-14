@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shop — WeightWise Hub{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+    <div class="container">
+        <div class="section-tag">Our Products</div>
+        <h1 class="section-title">SHOP <span>ALL PRODUCTS</span></h1>
+        <p class="text-muted mt-2">Premium supplements for your weight gain journey</p>
+    </div>
+</section>
+
+<!-- SHOP CONTENT -->
+<section class="py-5" style="background: var(--black);">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- SIDEBAR -->
+            <div class="col-lg-3">
+                <div class="shop-sidebar">
+                    <h6 class="sidebar-heading">Filter by Category</h6>
+                    <ul class="category-list">
+                        <li>
+                            <a href="{% url 'shop' %}"
+                               class="category-link {% if not selected_category %}active{% endif %}">
+                                <i class="fas fa-th me-2"></i> All Products
+                                <span class="badge">{{ products.count }}</span>
+                            </a>
+                        </li>
+                        {% for cat in categories %}
+                        <li>
+                            <a href="{% url 'shop' %}?category={{ cat.slug }}"
+                               class="category-link {% if selected_category.slug == cat.slug %}active{% endif %}">
+                                <i class="fas fa-tag me-2"></i> {{ cat.name }}
+                                <span class="badge">{{ cat.products.count }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PRODUCTS GRID -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <p class="text-muted mb-0">
+                        Showing <strong class="text-white">{{ products.count }}</strong> product(s)
+                        {% if selected_category %}in <strong class="text-orange">{{ selected_category.name }}</strong>{% endif %}
+                    </p>
+                </div>
+                <div class="row g-4">
+                    {% for product in products %}
+                    <div class="col-sm-6 col-xl-4">
+                        <div class="product-card">
+                            <div class="product-img-wrap">
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    <i class="fas fa-box fa-3x text-muted"></i>
+                                </div>
+                                {% endif %}
+                                {% if product.discount_percent %}
+                                <span class="product-badge">-{{ product.discount_percent }}%</span>
+                                {% endif %}
+                            </div>
+                            <div class="product-body">
+                                <div class="text-muted small mb-1">{{ product.category.name }}</div>
+                                <div class="product-name">{{ product.name }}</div>
+                                <div class="mt-2">
+                                    <span class="product-price">₦{{ product.price|floatformat:0 }}</span>
+                                    {% if product.old_price %}
+                                    <span class="product-old-price">₦{{ product.old_price|floatformat:0 }}</span>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url 'add_to_cart' product.id %}" class="btn-add-cart mt-3">
+                                    <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                                </a>
+                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-outline-secondary w-100 mt-2">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-box-open fa-3x text-muted mb-3 d-block"></i>
+                        <p class="text-muted">No products found in this category.</p>
+                        <a href="{% url 'shop' %}" class="btn-primary-custom mt-2">View All</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

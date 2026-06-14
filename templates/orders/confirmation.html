@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed — WeightWise Hub{% endblock %}
+
+{% block content %}
+<section class="py-5" style="background: var(--black); min-height: 80vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="section-title mt-4">ORDER <span>CONFIRMED!</span></h2>
+                <p class="text-muted mt-2 mb-4">
+                    Thank you <strong class="text-white">{{ order.full_name }}</strong>!
+                    Your order <strong class="text-orange">#{{ order.id }}</strong> has been placed successfully.
+                </p>
+
+                <div class="order-summary-box text-start mb-4">
+                    <h6 class="text-white fw-bold mb-3">Order Details</h6>
+                    {% for item in order.items.all %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">{{ item.product.name }} x{{ item.quantity }}</span>
+                        <span class="text-white">₦{{ item.subtotal|floatformat:0 }}</span>
+                    </div>
+                    {% endfor %}
+                    <hr style="border-color:#3a3a3a;">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-white fw-bold">Total Paid</span>
+                        <span class="product-price">₦{{ order.total_price|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <p class="text-muted small mb-4">
+                    A confirmation will be sent to <strong class="text-white">{{ order.email }}</strong>.
+                    We will deliver to <strong class="text-white">{{ order.address }}, {{ order.city }}, {{ order.state }}</strong>.
+                </p>
+
+                <a href="{% url 'shop' %}" class="btn-primary-custom">
+                    <i class="fas fa-shopping-bag me-2"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
