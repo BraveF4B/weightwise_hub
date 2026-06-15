@@ -141,13 +141,3 @@ def newsletter_subscribe(request):
         else:
             messages.error(request, 'Please enter a valid email.')
     return redirect(request.META.get('HTTP_REFERER', 'home'))
-
-def setup_admin(request):
-    from django.contrib.auth.models import User
-    try:
-        user = User.objects.get(username='admin')
-        user.set_password('Admin1234!')
-        user.save()
-        return HttpResponse('Password reset successfully!')
-    except Exception as e:
-        return HttpResponse(f'Error: {str(e)}')
