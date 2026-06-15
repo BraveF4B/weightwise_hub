@@ -141,3 +141,14 @@ def newsletter_subscribe(request):
         else:
             messages.error(request, 'Please enter a valid email.')
     return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    def setup_admin(request):
+    from django.contrib.auth.models import User
+    from django.http import HttpResponse
+    try:
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'opremofficial@gmail.com', 'Admin1234!')
+            return HttpResponse('Superuser created!')
+        return HttpResponse('Admin already exists!')
+    except Exception as e:
+        return HttpResponse(f'Error: {str(e)}')
