@@ -145,9 +145,9 @@ def newsletter_subscribe(request):
 def setup_admin(request):
     from django.contrib.auth.models import User
     try:
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@weightwisehub.com', 'WEIGHTWISEHUB')
-            return HttpResponse('Superuser created successfully!')
-        return HttpResponse('Admin already exists!')
+        user = User.objects.get(username='admin')
+        user.set_password('Admin1234!')
+        user.save()
+        return HttpResponse('Password reset successfully!')
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}')
