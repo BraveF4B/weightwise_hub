@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category, BrandReview
 from django.contrib import messages
+from django.http import HttpResponse
 
 
 def home(request):
@@ -141,11 +142,12 @@ def newsletter_subscribe(request):
             messages.error(request, 'Please enter a valid email.')
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
-    from django.http import HttpResponse
-
 def setup_admin(request):
     from django.contrib.auth.models import User
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser('admin', 'your@email.com', 'yourpassword123')
-        return HttpResponse('Superuser created!')
-    return HttpResponse('Admin already exists!')
+    try:
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@weightwisehub.com', 'WEIGHTWISEHUB')
+            return HttpResponse('Superuser created successfully!')
+        return HttpResponse('Admin already exists!')
+    except Exception as e:
+        return HttpResponse(f'Error: {str(e)}')
