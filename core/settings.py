@@ -15,7 +15,6 @@ import os
 from pathlib import Path
 from decouple import config
 import cloudinary
-import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,11 +68,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600,
-        ssl_require=True
+        conn_max_age=600
     )
 }
 
