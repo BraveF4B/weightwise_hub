@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category, BrandReview
 from django.contrib import messages
 from django.http import HttpResponse
-
+from django.contrib.auth.models import User
+from django.core.management import call_command
+    
 
 def home(request):
     featured = Product.objects.filter(is_featured=True, in_stock=True)[:6]
@@ -143,12 +145,11 @@ def newsletter_subscribe(request):
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
     def setup_admin(request):
-    from django.contrib.auth.models import User
-    from django.http import HttpResponse
     try:
+        call_command('migrate', '--no-input')
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser('admin', 'opremofficial@gmail.com', 'Admin1234!')
-            return HttpResponse('Superuser created!')
-        return HttpResponse('Admin already exists!')
+            return HttpResponse('Migrations done & Superuser created!')
+        return HttpResponse('Migrations done & Admin already exists!')
     except Exception as e:
         return HttpResponse(f'Error: {str(e)}')
