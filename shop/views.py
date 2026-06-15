@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category, BrandReview
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.management import call_command
-    
+from .models import Product, Category, BrandReview, Newsletter, Review
+
 
 def home(request):
     featured = Product.objects.filter(is_featured=True, in_stock=True)[:6]
@@ -43,7 +43,6 @@ def product_detail(request, slug):
         rating = int(request.POST.get('rating', 5))
         comment = request.POST.get('comment')
         if name and comment:
-            from .models import Review
             Review.objects.create(
                 product=product,
                 name=name,
@@ -104,7 +103,6 @@ def cart(request):
     total = sum(float(item['price']) * item['quantity'] for item in cart.values())
     return render(request, 'shop/cart.html', {'cart': cart, 'total': total})
 
-    from .models import BrandReview
 
 def reviews_page(request):
     reviews = BrandReview.objects.filter(approved=True).order_by('-created_at')
@@ -129,11 +127,11 @@ def reviews_page(request):
         'submitted': submitted,
     })
 
+
 def newsletter_subscribe(request):
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
         if email:
-            from .models import Newsletter
             from django.db import IntegrityError
             try:
                 Newsletter.objects.create(email=email)
@@ -144,7 +142,8 @@ def newsletter_subscribe(request):
             messages.error(request, 'Please enter a valid email.')
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
-    def setup_admin(request):
+
+def setup_admin(request):
     try:
         call_command('migrate', '--no-input')
         if not User.objects.filter(username='admin').exists():
