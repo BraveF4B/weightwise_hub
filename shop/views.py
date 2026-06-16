@@ -141,14 +141,3 @@ def newsletter_subscribe(request):
         else:
             messages.error(request, 'Please enter a valid email.')
     return redirect(request.META.get('HTTP_REFERER', 'home'))
-
-
-def setup_admin(request):
-    try:
-        call_command('migrate', '--no-input')
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'opremofficial@gmail.com', 'Admin1234!')
-            return HttpResponse('Migrations done & Superuser created!')
-        return HttpResponse('Migrations done & Admin already exists!')
-    except Exception as e:
-        return HttpResponse(f'Error: {str(e)}')
